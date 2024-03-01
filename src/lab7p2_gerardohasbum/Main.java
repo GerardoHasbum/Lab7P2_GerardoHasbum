@@ -1,9 +1,19 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/listalates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/listalates/GUIForms/JFrame.java to edit this listalate
  */
 package lab7p2_gerardohasbum;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,12 +25,14 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    public ArrayList<Producto> lista = new ArrayList();
+
     public Main() {
         initComponents();
-        Producto agua = new Producto(000, 0, 001, 1, "3.50", "Agua");
+        lista.add(new Producto(000, 0, 001, 1, 3.50, "Agua"));
+
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,6 +49,7 @@ public class Main extends javax.swing.JFrame {
         TableProductos = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         TreeArchivos = new javax.swing.JTree();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         WindowMenu = new javax.swing.JMenu();
@@ -53,7 +66,105 @@ public class Main extends javax.swing.JFrame {
 
         TableProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
                 "id", "name", "category", "price", "aisle", "bin"
@@ -65,6 +176,10 @@ public class Main extends javax.swing.JFrame {
         TreeArchivos.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane2.setViewportView(TreeArchivos);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Command Line");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -73,19 +188,24 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(CommandLine, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CommandEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(CommandEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                     .addComponent(CommandLine))
@@ -93,7 +213,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         FileMenu.setText("File");
@@ -158,25 +278,90 @@ public class Main extends javax.swing.JFrame {
 
     //Metodos
     
-    public void EscribirTable(){
-        
-        VaciarTable();
+    public void UpdateTable() {//sin terminar
         
         DefaultTableModel modelo = (DefaultTableModel) TableProductos.getModel();
         
-        
-        
-    }
-    
-    public void VaciarTable(){
-        
-        DefaultTableModel modelo = new DefaultTableModel();
+        for (int i = 0; i < lista.size(); i++) {
+
+            Object[] modelo2 = {lista.get(i).getId(), lista.get(i).getNombre(), lista.get(i).getCategory(), lista.get(i).getPrecio(), lista.get(i).getAisle(), lista.get(i).getBin()};
+            modelo.addRow(modelo2);
+
+        }
+
         TableProductos.setModel(modelo);
+
+    }
+    
+    public File CrearArchivo(String name) {
+        File temp = new File(name); 
+        return temp;
+    }
+    
+    public void EscribirArchivo(File archivo) throws IOException{
+        
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        
+        try {
+            
+            fw = new FileWriter(archivo, false);
+            bw = new BufferedWriter(fw);
+            
+            for (Producto p : lista) {
+                
+                bw.write(p.getId() + ",");
+                bw.write(p.getCategory() + ",");
+                bw.write(p.getBin() + ",");
+                bw.write(p.getAisle() + ",");
+                bw.write(p.getPrecio() + ",");
+                bw.write(p.getNombre() + ",");
+                
+            }
+            
+            bw.flush();
+            
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+            
+        }
+        
+        fw.close();
+        bw.close();
         
     }
     
+    public void CargarArchivo(File archivo){
+        
+        Scanner sc = null;
+        lista = new ArrayList();
+        
+        if (archivo.exists()) {
+            
+            try {
+                
+                sc = new Scanner(archivo);
+                sc.useDelimiter(",");
+                
+                while (sc.hasNext()) {
+                    
+                    lista.add(new Producto(sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextDouble(), sc.next()));
+                    
+                }
+                
+            } catch (Exception e) {
+                
+                e.printStackTrace();
+                
+            }
+            
+        }
+        
+    }
+
     //Fin Metodos
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CommandEntrar;
     private javax.swing.JTextField CommandLine;
@@ -185,6 +370,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable TableProductos;
     private javax.swing.JTree TreeArchivos;
     private javax.swing.JMenu WindowMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -4,8 +4,7 @@
  */
 package lab7p2_gerardohasbum;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /**
  *
@@ -14,12 +13,13 @@ import java.util.regex.Pattern;
 public class Producto {
     
     private int id, category, bin, aisle;
-    private String precio, nombre;
+    private double precio;
+    private String nombre;
 
     public Producto() {
     }
 
-    public Producto(int id, int category, int bin, int aisle, String precio, String nombre) {
+    public Producto(int id, int category, int bin, int aisle, double precio, String nombre) {
         this.id = id;
         this.category = category;
         this.bin = bin;
@@ -60,11 +60,11 @@ public class Producto {
         this.aisle = aisle;
     }
 
-    public String getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
