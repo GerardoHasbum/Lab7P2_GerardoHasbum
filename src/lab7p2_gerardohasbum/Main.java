@@ -52,6 +52,8 @@ public class Main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         WindowMenu = new javax.swing.JMenu();
         HelpMenu = new javax.swing.JMenu();
 
@@ -63,6 +65,11 @@ public class Main extends javax.swing.JFrame {
         CommandLine.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         CommandEntrar.setText("Entrar");
+        CommandEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CommandEntrarMouseClicked(evt);
+            }
+        });
 
         TableProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -217,6 +224,18 @@ public class Main extends javax.swing.JFrame {
         );
 
         FileMenu.setText("File");
+
+        jMenuItem1.setText("New File");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        FileMenu.add(jMenuItem1);
+
+        jMenuItem2.setText("Import FIle");
+        FileMenu.add(jMenuItem2);
+
         jMenuBar1.add(FileMenu);
 
         WindowMenu.setText("Window");
@@ -240,6 +259,56 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void CommandEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CommandEntrarMouseClicked
+        // TODO add your handling code here:
+
+        String[] comando = CommandLine.getText().split(" ");
+        
+        for (int i = 0; i < comando.length; i++) {
+            
+            
+            
+        }
+        
+        switch (comando[0]) {
+
+            case "./load":
+                String append = "./";
+                append += comando[1];
+                File archivo = new File(append);
+                CargarArchivo(archivo);
+                UpdateTable();
+                break;
+                
+            case "./create":
+                if (!(comando[3].equals("-single"))) {
+                    
+                    JOptionPane.showMessageDialog(this, "Womp Womp");
+                    
+                } else {
+                    
+                    CrearArchivo(comando[1]);
+                    
+                }
+                break;
+
+        }
+
+    }//GEN-LAST:event_CommandEntrarMouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        
+        String comando = JOptionPane.showInputDialog(this, "Ingrese el nombre del archivo a crear");
+        
+        if (comando.contains(".txt")) {
+            CrearArchivo(comando);
+        } else {
+            CrearArchivo(comando + ".txt");
+        }
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,87 +346,88 @@ public class Main extends javax.swing.JFrame {
     }
 
     //Metodos
-    
-    public void UpdateTable() {//sin terminar
-        
+    public void UpdateTable() {
+
         DefaultTableModel modelo = (DefaultTableModel) TableProductos.getModel();
-        
+
+        modelo.setRowCount(0);
         for (int i = 0; i < lista.size(); i++) {
 
             Object[] modelo2 = {lista.get(i).getId(), lista.get(i).getNombre(), lista.get(i).getCategory(), lista.get(i).getPrecio(), lista.get(i).getAisle(), lista.get(i).getBin()};
             modelo.addRow(modelo2);
 
         }
+        modelo.setRowCount(99);
 
         TableProductos.setModel(modelo);
 
     }
-    
+
     public File CrearArchivo(String name) {
-        File temp = new File(name); 
+        File temp = new File(name);
         return temp;
     }
-    
-    public void EscribirArchivo(File archivo) throws IOException{
-        
+
+    public void EscribirArchivo(File archivo) throws IOException {
+
         FileWriter fw = null;
         BufferedWriter bw = null;
-        
+
         try {
-            
+
             fw = new FileWriter(archivo, false);
             bw = new BufferedWriter(fw);
-            
+
             for (Producto p : lista) {
-                
+
                 bw.write(p.getId() + ",");
                 bw.write(p.getCategory() + ",");
                 bw.write(p.getBin() + ",");
                 bw.write(p.getAisle() + ",");
                 bw.write(p.getPrecio() + ",");
                 bw.write(p.getNombre() + ",");
-                
+
             }
-            
+
             bw.flush();
-            
+
         } catch (Exception e) {
-            
+
             e.printStackTrace();
-            
+
         }
-        
+
         fw.close();
         bw.close();
-        
+
     }
-    
-    public void CargarArchivo(File archivo){
-        
+
+    public void CargarArchivo(File archivo) {
+
         Scanner sc = null;
         lista = new ArrayList();
-        
+
         if (archivo.exists()) {
-            
+
             try {
-                
+
                 sc = new Scanner(archivo);
                 sc.useDelimiter(",");
-                
+
                 while (sc.hasNext()) {
-                    
+
                     lista.add(new Producto(sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextDouble(), sc.next()));
-                    
+
                 }
-                
+
             } catch (Exception e) {
-                
+
                 e.printStackTrace();
-                
+
             }
-            
+
         }
-        
+
     }
 
     //Fin Metodos
@@ -372,6 +442,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu WindowMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
