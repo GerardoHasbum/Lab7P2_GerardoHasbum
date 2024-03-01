@@ -10,11 +10,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -42,6 +46,9 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        TreePopup = new javax.swing.JPopupMenu();
+        LoadFile = new javax.swing.JMenuItem();
+        RefreshTree = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         CommandLine = new javax.swing.JTextField();
         CommandEntrar = new javax.swing.JButton();
@@ -56,6 +63,12 @@ public class Main extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         WindowMenu = new javax.swing.JMenu();
         HelpMenu = new javax.swing.JMenu();
+
+        LoadFile.setText("Load File");
+        TreePopup.add(LoadFile);
+
+        RefreshTree.setText("Refresh Tree");
+        TreePopup.add(RefreshTree);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -181,6 +194,11 @@ public class Main extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("CSVs");
         TreeArchivos.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        TreeArchivos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TreeArchivosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(TreeArchivos);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -264,13 +282,7 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         String[] comando = CommandLine.getText().split(" ");
-        
-        for (int i = 0; i < comando.length; i++) {
-            
-            
-            
-        }
-        
+
         switch (comando[0]) {
 
             case "./load":
@@ -280,17 +292,37 @@ public class Main extends javax.swing.JFrame {
                 CargarArchivo(archivo);
                 UpdateTable();
                 break;
-                
+
             case "./create":
-                if (!(comando[3].equals("-single"))) {
-                    
+                if (!(comando[2].equals("-single"))) {
+
                     JOptionPane.showMessageDialog(this, "Womp Womp");
-                    
+
                 } else {
-                    
-                    CrearArchivo(comando[1]);
-                    
+
+                    try {
+                        CrearArchivo(comando[1]);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
+                break;
+
+            case "./clear":
+                for (int i = 0; i < TableProductos.getColumnCount(); i++) {
+
+                    for (int j = 0; j < TableProductos.getRowCount(); j++) {
+
+                        TableProductos.setValueAt(null, j, i);
+
+                    }
+
+                }
+                break;
+
+            case "./refresh":
+
                 break;
 
         }
@@ -299,16 +331,40 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        
+
         String comando = JOptionPane.showInputDialog(this, "Ingrese el nombre del archivo a crear");
-        
-        if (comando.contains(".txt")) {
-            CrearArchivo(comando);
-        } else {
-            CrearArchivo(comando + ".txt");
+
+        try {
+            if (comando.contains(".txt")) {
+                CrearArchivo("./" + comando);
+            } else {
+                CrearArchivo("./" + comando + ".txt");
+            }
+        } catch (Exception e) {
         }
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void TreeArchivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeArchivosMouseClicked
+        // TODO add your handling code here:
+
+        if (evt.getButton() == 3) {
+
+            if (TreeArchivos.getSelectionPath() != null) {
+
+                DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) TreeArchivos.getSelectionPath().getLastPathComponent();
+
+                if (nodo.getUserObject() instanceof File) {
+
+                    TreePopup.show(TreeArchivos, evt.getX(), evt.getY());
+
+                }
+
+            }
+
+        }
+
+    }//GEN-LAST:event_TreeArchivosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -363,15 +419,49 @@ public class Main extends javax.swing.JFrame {
 
     }
 
-    public File CrearArchivo(String name) {
+    public void CrearArchivo(String name) throws IOException {
         File temp = new File(name);
-        return temp;
+        EscribirArchivo(temp);
+        for (int i = 0; i < TableProductos.getColumnCount(); i++) {
+
+            for (int j = 0; j < TableProductos.getRowCount(); j++) {
+
+                TableProductos.setValueAt(null, j, i);
+
+            }
+
+        }
     }
 
     public void EscribirArchivo(File archivo) throws IOException {
 
         FileWriter fw = null;
         BufferedWriter bw = null;
+        lista = new ArrayList();
+
+        for (int i = 0; i < TableProductos.getColumnCount(); i++) {
+
+            for (int j = 0; j < TableProductos.getRowCount(); j++) {
+
+                if (TableProductos.getValueAt(j, i) != null) {
+                    int id = (int) TableProductos.getValueAt(j, i);
+                    j++;
+                    int category = (int) TableProductos.getValueAt(j, i);
+                    j++;
+                    int bin = (int) TableProductos.getValueAt(j, i);
+                    j++;
+                    int aisle = (int) TableProductos.getValueAt(j, i);
+                    j++;
+                    double precio = (double) TableProductos.getValueAt(j, i);
+                    j++;
+                    String nombre = (String) TableProductos.getValueAt(j, i);
+
+                    lista.add(new Producto(id, category, bin, aisle, precio, nombre));
+                }
+
+            }
+
+        }
 
         try {
 
@@ -430,6 +520,14 @@ public class Main extends javax.swing.JFrame {
 
     }
 
+    public void RefrescarTree() {
+
+        DefaultTreeModel m = (DefaultTreeModel) TreeArchivos.getModel();
+
+        DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(m.getRoot());
+
+    }
+
     //Fin Metodos
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -437,8 +535,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField CommandLine;
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenu HelpMenu;
+    private javax.swing.JMenuItem LoadFile;
+    private javax.swing.JMenuItem RefreshTree;
     private javax.swing.JTable TableProductos;
     private javax.swing.JTree TreeArchivos;
+    private javax.swing.JPopupMenu TreePopup;
     private javax.swing.JMenu WindowMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
