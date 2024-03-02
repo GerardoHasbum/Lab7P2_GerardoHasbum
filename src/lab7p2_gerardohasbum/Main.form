@@ -12,11 +12,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Load File"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoadFileActionPerformed"/>
+          </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="RefreshTree">
           <Properties>
             <Property name="text" type="java.lang.String" value="Refresh Tree"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RefreshTreeActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>

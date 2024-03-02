@@ -71,9 +71,19 @@ public class Main extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
 
         LoadFile.setText("Load File");
+        LoadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadFileActionPerformed(evt);
+            }
+        });
         TreePopup.add(LoadFile);
 
         RefreshTree.setText("Refresh Tree");
+        RefreshTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefreshTreeActionPerformed(evt);
+            }
+        });
         TreePopup.add(RefreshTree);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -411,7 +421,7 @@ public class Main extends javax.swing.JFrame {
 
                 DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) TreeArchivos.getSelectionPath().getLastPathComponent();
 
-                if (nodo.getUserObject() instanceof File) {
+                if (nodo.getUserObject() instanceof String) {
 
                     TreePopup.show(TreeArchivos, evt.getX(), evt.getY());
 
@@ -468,26 +478,42 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        
+
         RefrescarTree();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        
+
         JOptionPane.showMessageDialog(this, "Estructura del producto: un producto contiene una id, un nombre, una categoria, un bin en donde se encuentra en el aisle, un aisle donde se encuentra y su precio");
-        
+
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
-        
+
         JOptionPane.showMessageDialog(this, "1. ./load sampleText.txt => carga un archivo a la tabla\n"
                 + "2. ./create sampleText -single => crea un archivo nuevo\n"
                 + "3. ./clear => limpia la tabla\n"
                 + "3. ./refresh => carga los archivos a la izquierda");
-        
+
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void LoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFileActionPerformed
+        // TODO add your handling code here:
+
+        File archivo = new File((String) evt.getSource());
+        CargarArchivo(archivo);
+        UpdateTable();
+
+    }//GEN-LAST:event_LoadFileActionPerformed
+
+    private void RefreshTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshTreeActionPerformed
+        // TODO add your handling code here:
+        
+        RefrescarTree();
+        
+    }//GEN-LAST:event_RefreshTreeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -640,6 +666,7 @@ public class Main extends javax.swing.JFrame {
         DefaultTreeModel m = (DefaultTreeModel) TreeArchivos.getModel();
 
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(m.getRoot());
+        raiz.removeAllChildren();
 
         for (String f : paths) {
 
