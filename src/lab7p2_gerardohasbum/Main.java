@@ -30,6 +30,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     public ArrayList<Producto> lista = new ArrayList();
+    public ArrayList<String> paths = new ArrayList();
 
     public Main() {
         initComponents();
@@ -62,7 +63,12 @@ public class Main extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         WindowMenu = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         HelpMenu = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         LoadFile.setText("Load File");
         TreePopup.add(LoadFile);
@@ -262,9 +268,51 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1.add(FileMenu);
 
         WindowMenu.setText("Window");
+
+        jMenuItem3.setText("Limpiar CMD");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        WindowMenu.add(jMenuItem3);
+
+        jMenuItem4.setText("Limpiar Tabla");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        WindowMenu.add(jMenuItem4);
+
+        jMenuItem5.setText("Refresh Trees");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        WindowMenu.add(jMenuItem5);
+
         jMenuBar1.add(WindowMenu);
 
         HelpMenu.setText("Help");
+
+        jMenuItem6.setText("Product Structure");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        HelpMenu.add(jMenuItem6);
+
+        jMenuItem7.setText("Guia");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        HelpMenu.add(jMenuItem7);
+
         jMenuBar1.add(HelpMenu);
 
         setJMenuBar(jMenuBar1);
@@ -307,9 +355,9 @@ public class Main extends javax.swing.JFrame {
 
                     try {
                         if (comando[1].contains(".txt")) {
-                        CrearArchivo(comando[1]);
+                            CrearArchivo(comando[1]);
                         } else {
-                            CrearArchivo(comando[1]+".txt");
+                            CrearArchivo(comando[1] + ".txt");
                         }
                     } catch (IOException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -391,12 +439,55 @@ public class Main extends javax.swing.JFrame {
             UpdateTable();
 
         } else {
-            File archivo = new File(comando+".txt");
+            File archivo = new File(comando + ".txt");
             CargarArchivo(archivo);
             UpdateTable();
         }
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        CommandLine.setText("");
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        for (int i = 0; i < TableProductos.getColumnCount(); i++) {
+
+            for (int j = 0; j < TableProductos.getRowCount(); j++) {
+
+                TableProductos.setValueAt(null, j, i);
+
+            }
+
+        }        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        
+        RefrescarTree();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        
+        JOptionPane.showMessageDialog(this, "Estructura del producto: un producto contiene una id, un nombre, una categoria, un bin en donde se encuentra en el aisle, un aisle donde se encuentra y su precio");
+        
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        
+        JOptionPane.showMessageDialog(this, "1. ./load sampleText.txt => carga un archivo a la tabla\n"
+                + "2. ./create sampleText -single => crea un archivo nuevo\n"
+                + "3. ./clear => limpia la tabla\n"
+                + "3. ./refresh => carga los archivos a la izquierda");
+        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -452,7 +543,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void CrearArchivo(String name) throws IOException {
-        File temp = new File("./Archivo/"+name);
+        File temp = new File("./" + name);
+        paths.add("./" + name);
         EscribirArchivo(temp);
     }
 
@@ -545,16 +637,13 @@ public class Main extends javax.swing.JFrame {
 
     public void RefrescarTree() {
 
-        File a = new File("./Archivos");
-
         DefaultTreeModel m = (DefaultTreeModel) TreeArchivos.getModel();
 
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(m.getRoot());
-        File[] Files = a.listFiles();
 
-        for (File f : Files) {
+        for (String f : paths) {
 
-            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(f.getName());
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(f);
 
             raiz.add(nodo);
 
@@ -586,6 +675,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
