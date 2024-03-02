@@ -252,6 +252,11 @@ public class Main extends javax.swing.JFrame {
         FileMenu.add(jMenuItem1);
 
         jMenuItem2.setText("Import FIle");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         FileMenu.add(jMenuItem2);
 
         jMenuBar1.add(FileMenu);
@@ -286,7 +291,7 @@ public class Main extends javax.swing.JFrame {
         switch (comando[0]) {
 
             case "./load":
-                String append = "./";
+                String append = "./Archivo/";
                 append += comando[1];
                 File archivo = new File(append);
                 CargarArchivo(archivo);
@@ -301,7 +306,11 @@ public class Main extends javax.swing.JFrame {
                 } else {
 
                     try {
+                        if (comando[1].contains(".txt")) {
                         CrearArchivo(comando[1]);
+                        } else {
+                            CrearArchivo(comando[1]+".txt");
+                        }
                     } catch (IOException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -322,7 +331,7 @@ public class Main extends javax.swing.JFrame {
                 break;
 
             case "./refresh":
-
+                RefrescarTree();
                 break;
 
         }
@@ -336,9 +345,9 @@ public class Main extends javax.swing.JFrame {
 
         try {
             if (comando.contains(".txt")) {
-                CrearArchivo("./" + comando);
+                CrearArchivo(comando);
             } else {
-                CrearArchivo("./" + comando + ".txt");
+                CrearArchivo(comando + ".txt");
             }
         } catch (Exception e) {
         }
@@ -365,6 +374,29 @@ public class Main extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_TreeArchivosMouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+
+        String comando = JOptionPane.showInputDialog(this, "Ingrese el file que desea abrir: ");
+
+        String regex = "^.*\\.txt$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(comando);
+
+        if (matcher.matches()) {
+
+            File archivo = new File(comando);
+            CargarArchivo(archivo);
+            UpdateTable();
+
+        } else {
+            File archivo = new File(comando+".txt");
+            CargarArchivo(archivo);
+            UpdateTable();
+        }
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -420,17 +452,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void CrearArchivo(String name) throws IOException {
-        File temp = new File(name);
+        File temp = new File("./Archivo/"+name);
         EscribirArchivo(temp);
-        for (int i = 0; i < TableProductos.getColumnCount(); i++) {
-
-            for (int j = 0; j < TableProductos.getRowCount(); j++) {
-
-                TableProductos.setValueAt(null, j, i);
-
-            }
-
-        }
     }
 
     public void EscribirArchivo(File archivo) throws IOException {
@@ -522,9 +545,27 @@ public class Main extends javax.swing.JFrame {
 
     public void RefrescarTree() {
 
+        File a = new File("./Archivos");
+
         DefaultTreeModel m = (DefaultTreeModel) TreeArchivos.getModel();
 
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(m.getRoot());
+        File[] Files = a.listFiles();
+
+        for (File f : Files) {
+
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(f.getName());
+
+            raiz.add(nodo);
+
+        }
+
+        m.setRoot(raiz);
+        m.reload();
+        TreeArchivos.setModel(m);
+    }
+
+    public void NodoCreado() {
 
     }
 
